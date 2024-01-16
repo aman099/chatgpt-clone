@@ -1,3 +1,3 @@
-"client" file/directory for Frontend codes
+*client*  file/directory for Frontend
 
-"server" file/directory for Backend codes
+*server*  file/directory for Backend
