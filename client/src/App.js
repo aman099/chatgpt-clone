@@ -146,7 +146,7 @@ function App() {
                   alt="profile"
                 />
               </p>
-              <p>{chatMessage.content}</p>
+              <p className="chat_content">{chatMessage.content}</p>
             </li>
           ))}
         </ul>
