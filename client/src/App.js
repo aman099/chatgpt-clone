@@ -61,7 +61,7 @@ function App() {
 
     try {
       const response = await fetch(
-        "http://localhost:5502/completions",
+        "https://chat-gpt-clone-server.vercel.app/completions",
         options
       );
       const data = await response.json();
