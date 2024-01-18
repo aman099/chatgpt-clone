@@ -4,6 +4,7 @@ import moment from "moment/moment";
 
 import userImg from "./assets/user.png";
 import assistantImg from "./assets/robot.png";
+import Loading from "./Loading";
 
 function App() {
   const [value, setValue] = useState(null);
@@ -15,6 +16,7 @@ function App() {
     objects: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }],
   });
   const [date, setDate] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const createNewChat = () => {
     setMessage(null);
@@ -58,6 +60,7 @@ function App() {
         "Content-Type": "application/json",
       },
     };
+    setLoading(true);
 
     try {
       const response = await fetch(
@@ -70,13 +73,13 @@ function App() {
     } catch (error) {
       console.log(error);
     }
-    // setValue("");
   };
 
   useEffect(() => {
     if (!currentTitle && value && message) {
       setCurrentTitle(value);
     } else if (currentTitle && value && message) {
+      setLoading(false);
       setPreviousChats((prevChats) => [
         ...prevChats,
         {
@@ -134,21 +137,25 @@ function App() {
       <section className="main">
         {!currentTitle && <h1>AmanGPT</h1>}
         <ul className="feed">
-          {currentChat?.map((chatMessage, idx) => (
-            <li key={idx} className="feed-list">
-              <span className="date">{date}</span> <br />
-              <p className="role">
-                {/* {chatMessage.role}&nbsp; */}
-                <img
-                  src={`${
-                    chatMessage.role === "user" ? userImg : assistantImg
-                  }`}
-                  alt="profile"
-                />
-              </p>
-              <p className="chat_content">{chatMessage.content}</p>
-            </li>
-          ))}
+          {!loading ? (
+            currentChat?.map((chatMessage, idx) => (
+              <li key={idx} className="feed-list">
+                <span className="date">{date}</span> <br />
+                <p className="role">
+                  {/* {chatMessage.role}&nbsp; */}
+                  <img
+                    src={`${
+                      chatMessage.role === "user" ? userImg : assistantImg
+                    }`}
+                    alt="profile"
+                  />
+                </p>
+                <p className="chat_content">{chatMessage.content}</p>
+              </li>
+            ))
+          ) : (
+            <Loading />
+          )}
         </ul>
         <div className="bottom-section">
           <div className="input-container">
