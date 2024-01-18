@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import moment from "moment/moment";
+import { CSSTransition } from "react-transition-group";
 
 import userImg from "./assets/user.png";
 import assistantImg from "./assets/robot.png";
@@ -17,6 +18,7 @@ function App() {
   });
   const [date, setDate] = useState("");
   const [loading, setLoading] = useState(false);
+  const [fade, setFade] = useState(true);
 
   const createNewChat = () => {
     setMessage(null);
@@ -80,6 +82,7 @@ function App() {
       setCurrentTitle(value);
     } else if (currentTitle && value && message) {
       setLoading(false);
+      setFade((fades) => !fades);
       setPreviousChats((prevChats) => [
         ...prevChats,
         {
@@ -139,19 +142,31 @@ function App() {
         <ul className="feed">
           {!loading ? (
             currentChat?.map((chatMessage, idx) => (
-              <li key={idx} className="feed-list">
-                <span className="date">{date}</span> <br />
-                <p className="role">
-                  {/* {chatMessage.role}&nbsp; */}
-                  <img
-                    src={`${
-                      chatMessage.role === "user" ? userImg : assistantImg
-                    }`}
-                    alt="profile"
-                  />
-                </p>
-                <p className="chat_content">{chatMessage.content}</p>
-              </li>
+              <CSSTransition
+                key={idx}
+                in={fade}
+                timeout={400}
+                classNames="fade"
+              >
+                <li
+                  key={idx}
+                  className={`feed-list ${
+                    chatMessage.role === "user" ? "user-list" : "robot-list"
+                  }`}
+                >
+                  <span className="date">{date}</span> <br />
+                  <p className="role">
+                    {/* {chatMessage.role}&nbsp; */}
+                    <img
+                      src={`${
+                        chatMessage.role === "user" ? userImg : assistantImg
+                      }`}
+                      alt="profile"
+                    />
+                  </p>
+                  <p className="chat_content">{chatMessage.content}</p>
+                </li>
+              </CSSTransition>
             ))
           ) : (
             <Loading />

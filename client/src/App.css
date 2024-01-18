@@ -196,6 +196,13 @@ input:focus {
 .feed-list {
   position: relative;
 }
+.robot-list {
+  margin-bottom: 50px !important;
+}
+.robot-list .chat_content {
+  color: #e4d3d3b9 !important;
+}
+
 .date {
   position: absolute;
   bottom: 5px;
@@ -232,6 +239,15 @@ input:focus {
 
 .inactive {
   border: none;
+}
+
+/* Fade Transitions(React Transition Group) */
+.fade-enter {
+  opacity: 0;
+}
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 400ms ease;
 }
 
 /* Media Query */
